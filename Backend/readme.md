@@ -88,3 +88,57 @@ Example:
 
 #### Error (400 Bad Request / 401 Unauthorized)
 - Returns a JSON object with error details if validation fails or the credentials are invalid.
+
+## GET /users/profile
+
+### Description
+This endpoint retrieves the profile information of the authenticated user.
+
+### Authentication
+Requires a valid JWT token in the Authorization header:
+`Authorization: Bearer <token>`
+
+### Response
+
+#### Success (200 OK)
+Returns the user's profile information.
+
+Example:
+```json
+{
+  "_id": "user_id",
+  "fullname": {
+    "firstname": "John",
+    "lastname": "Doe"
+  },
+  "email": "john.doe@example.com",
+  "socketId": null
+}
+```
+
+#### Error (401 Unauthorized)
+Returns if the user is not authenticated or the token is invalid.
+
+## GET /users/logout
+
+### Description
+This endpoint logs out the user by clearing their authentication cookie and blacklisting their JWT token.
+
+### Authentication
+Requires a valid JWT token in the Authorization header:
+`Authorization: Bearer <token>`
+
+### Response
+
+#### Success (200 OK)
+```json
+{
+  "message": "Logged out successfully"
+}
+```
+
+#### Error (400 Bad Request)
+- Returns if the Authorization header or token is missing.
+
+#### Error (401 Unauthorized)
+- Returns if the token is invalid or already blacklisted.
