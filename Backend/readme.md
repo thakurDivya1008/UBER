@@ -142,3 +142,78 @@ Requires a valid JWT token in the Authorization header:
 
 #### Error (401 Unauthorized)
 - Returns if the token is invalid or already blacklisted.
+
+## Captain Routes
+
+## POST /captains/register
+
+### Description
+This endpoint registers a new captain by validating their personal and vehicle information.
+
+### Request Data
+- **fullname** (object)
+  - **firstname** (string, required): Minimum 3 characters.
+  - **lastname** (string, optional): Minimum 3 characters if provided.
+- **email** (string, required): Must be a valid email.
+- **password** (string, required): Minimum 6 characters.
+- **vehicle** (object)
+  - **color** (string, required): Minimum 3 characters.
+  - **plate** (string, required): Minimum 3 characters.
+  - **capacity** (number, required): Minimum 1 passenger.
+  - **vehicleType** (string, required): Must be one of: 'car', 'motorcycle', 'auto'.
+
+#### Example Request Body
+```json
+{
+  "fullname": {
+    "firstname": "John",
+    "lastname": "Smith"
+  },
+  "email": "john.smith@example.com",
+  "password": "securePassword123",
+  "vehicle": {
+    "color": "Black",
+    "plate": "ABC123",
+    "capacity": 4,
+    "vehicleType": "car"
+  }
+}
+```
+
+### Response
+
+#### Success (201 Created)
+Returns the created captain's details (excluding password).
+
+Example:
+```json
+{
+  "_id": "captain_id",
+  "fullname": {
+    "firstname": "John",
+    "lastname": "Smith"
+  },
+  "email": "john.smith@example.com",
+  "vehicle": {
+    "color": "Black",
+    "plate": "ABC123",
+    "capacity": 4,
+    "vehicleType": "car"
+  }
+}
+```
+
+#### Error (400 Bad Request)
+Returns validation errors if any required field is missing or invalid.
+
+Example:
+```json
+{
+  "errors": [
+    {
+      "msg": "First name must be at least 3 characters long",
+      "param": "fullname.firstname"
+    }
+  ]
+}
+```
